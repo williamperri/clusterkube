@@ -8,6 +8,8 @@ Criacao de um Cluster Kubernets em VMWare Workstation
 systemctl disable firewalld
 systemctl stop firewalld
 
-Edit o vi /etc/fstab e 'comente' a linha de swap
+Edite o /etc/fstab e 'comente' a linha de swap. Apos isso reinicie a VM
+
+
 
 
