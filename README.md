@@ -9,7 +9,8 @@ Criacao de um Cluster Kubernets em VMWare Workstation
   systemctl stop firewalld
 5. Desative o SWAP do Sistema Operacional
   Edite o /etc/fstab e 'comente' a linha de swap. Apos isso reinicie a VM
-6.
+6. Instalar o containerd
+7. 
 
 
 
