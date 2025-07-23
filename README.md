@@ -38,8 +38,20 @@ sudo yum -y install epel-release
 21. Criar um diretorio para as chaves publicas e dar permissoes
     sudo mkdir -p /etc/keyrings
     sudo chmod 755 -R /etc/keyrings
-22. 
-23. 
+22. Criar um repositorio do kubernets
+    cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+23. Baixar as chaves publicas do kubernets
+
+24. dsdds
 
 
     
