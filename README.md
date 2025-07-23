@@ -22,6 +22,17 @@ sudo yum -y install epel-release
     sudo systemctl enable --now crio
 11. Verificacao do CRIO se esta inicializado
     systemctl status crio
+12. Instalacao do Chrony para sincronismo de horario
+    yum install chrony
+13. Instalar o servidor de certificado
+    yum install ca-certificates
+15. Instalar o lsb-release
+    yum install lsb-realease
+17. Instalar o gnupg
+    yum install gnupg
+19. Instalar o nfs-utils
+    yum install nfs-utils
+20. 
 
     
 
