@@ -50,7 +50,7 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
        https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOF
 23. Baixar as chaves publicas do kubernets
-
+teste
 24. dsdds
 
 
