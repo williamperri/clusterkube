@@ -32,7 +32,15 @@ sudo yum -y install epel-release
     yum install gnupg
 19. Instalar o nfs-utils
     yum install nfs-utils
-20. 
+20. Subir os servicoes do NFS
+    sudo systemctl enable --now rpcbind
+    sudo systemctl enable --now nfs-client.target
+21. Criar um diretorio para as chaves publicas e dar permissoes
+    sudo mkdir -p /etc/keyrings
+    sudo chmod 755 -R /etc/keyrings
+22. 
+23. 
+
 
     
 
