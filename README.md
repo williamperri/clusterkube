@@ -25,14 +25,14 @@ dnf install -y \
 9.  Adicione os repositórios do CRI-O
 
 
-cat <<EOF | tee /etc/yum.repos.d/cri-o.repo
-[cri-o]
-name=CRI-O
-baseurl=https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/rpm/
-enabled=1
-gpgcheck=1
-gpgkey=https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/rpm/repodata/repomd.xml.key
-EOF
+    cat <<EOF | tee /etc/yum.repos.d/cri-o.repo
+    [cri-o]
+    name=CRI-O
+    baseurl=https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/rpm/
+    enabled=1
+    gpgcheck=1
+    gpgkey=https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/rpm/repodata/repomd.xml.key
+    EOF
 
 
     sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_9_Stream/devel:kubic:libcontainers:stable.repo
