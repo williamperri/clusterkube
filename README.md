@@ -39,19 +39,22 @@ sudo yum -y install epel-release
     sudo mkdir -p /etc/keyrings
     sudo chmod 755 -R /etc/keyrings
 22. Criar um repositorio do kubernets
-    cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
-baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+baseurl=https://pkgs.k8s.io/core:/stable:/v1.33/rpm/
 enabled=1
 gpgcheck=1
-repo_gpgcheck=1
-gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
-       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+gpgkey=https://pkgs.k8s.io/core:/stable:/v1.33/rpm/repodata/repomd.xml.key
+exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 EOF
 23. Baixar as chaves publicas do kubernets
-teste
-24. dsdds
+curl -fsSL https://packages.cloud.google.com/yum/doc/yum-key.gpg | gpg --import
+curl -fsSL https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg | gpg --import
+24. Configurar o SELinux
+    sudo setenforce 0
+    sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+25. 
 
 
     
