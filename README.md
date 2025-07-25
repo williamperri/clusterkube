@@ -115,6 +115,10 @@ EOF
 
 32. Criar o arquivo de configuracao do CRIO
     vi /etc/crio/crio-config.toml
+
+33. Configuracao do NetFilter
+    modprobe br_netfilter
+
     
 [crio]
 runtime = "runc"
@@ -159,10 +163,23 @@ pause_image = "registry.k8s.io/pause:3.10"
     sudo sed -i 's|^SELINUX=enforcing$|SELINUX=disabled|' /etc/selinux/config
 
 36. Instalar o Kubernets
+    sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+    sudo kubeadm config images pull
+    sudo systemctl enable --now kubelet
+37. Desligar e Clonar 3x
+38. Primeiro Clone, colocar como nome de IMAGEKUBE
+39. Segundo e Terceiro Clone, sendo WORKER1 e WORKER2
+40. Ligar os dois Workers e renomea-los (nmtui) e anotar os IPs
+41. Configurar o arquivo Hosts das 3 maquinas com os nomes e IPs e FQDN
+    Ex.
+    x.x.x.x master01 master01.kube.local
+    x.x.x.x worker01 worker01.kube.local
+    x.x.x.x worker02 worker02.kube.local
+43. 
 
     
 
-38. S
+44. S
 
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
