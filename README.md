@@ -158,16 +158,17 @@ pause_image = "registry.k8s.io/pause:3.10"
 34. Desativar o SELINUX
     sudo sed -i 's|^SELINUX=enforcing$|SELINUX=disabled|' /etc/selinux/config
 
-36. SS
-
-37. S
-
+36. Instalar o Kubernets
 
     
 
+38. S
+
+sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
 kubeadm --cri-socket /var/run/crio/crio.sock
 
-
+39. 
  
 
 
