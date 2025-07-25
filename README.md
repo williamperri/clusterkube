@@ -116,10 +116,32 @@ EOF
 32. Criar o arquivo de configuracao do CRIO
     vi /etc/crio/crio-config.toml
 
-    [crio]
-runtime = "runc"
+
+
+
+
+[crio]
+root = "/var/lib/containers/storage"
+runroot = "/var/run/containers/storage"
 storage_driver = "overlay"
 log_level = "info"
+log_dir = "/var/log/crio/pods"
+
+[crio.api]
+listen = "/var/run/crio/crio.sock"
+stream_address = "127.0.0.1"
+stream_port = "0"
+
+[crio.runtime]
+default_runtime = "runc"
+conmon = "/usr/bin/conmon"
+cgroup_manager = "systemd"
+default_capabilities = ["CHOWN", "DAC_OVERRIDE", "FSETID", "FOWNER", "SETGID", "SETUID", "SETPCAP", "NET_BIND_SERVICE", "KILL"]
+selinux = true
+seccomp_profile = "/etc/crio/seccomp.json"
+
+[crio.image]
+pause_image = "registry.k8s.io/pause:3.10"
 
 [crio.network]
 plugin_dirs = ["/opt/cni/bin"]
@@ -128,7 +150,6 @@ network_dir = "/etc/cni/net.d"
 [crio.metrics]
 enable_metrics = true
 metrics_port = 9090
-
 
 34. 
 35. SS
