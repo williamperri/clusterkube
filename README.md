@@ -115,10 +115,21 @@ EOF
 
 32. Criar o arquivo de configuracao do CRIO
     vi /etc/crio/crio-config.toml
+    
+[crio]
+runtime = "runc"
+storage_driver = "overlay"
+log_level = "info"
 
+[crio.network]
+plugin_dirs = ["/opt/cni/bin"]
+network_dir = "/etc/cni/net.d"
 
+[crio.metrics]
+enable_metrics = true
+metrics_port = 9090
 
-
+    vi /etc/crio/crio.conf
 
 [crio]
 root = "/var/lib/containers/storage"
@@ -143,18 +154,13 @@ seccomp_profile = "/etc/crio/seccomp.json"
 [crio.image]
 pause_image = "registry.k8s.io/pause:3.10"
 
-[crio.network]
-plugin_dirs = ["/opt/cni/bin"]
-network_dir = "/etc/cni/net.d"
 
-[crio.metrics]
-enable_metrics = true
-metrics_port = 9090
+34. Desativar o SELINUX
+    sudo sed -i 's|^SELINUX=enforcing$|SELINUX=disabled|' /etc/selinux/config
 
-34. 
-35. SS
+36. SS
 
-36. S
+37. S
 
 
     
