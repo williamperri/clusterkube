@@ -101,9 +101,39 @@ sudo sysctl --system
 Verify that net.ipv4.ip_forward is set to 1 with:
 
 sysctl net.ipv4.ip_forward
-31. ddd
+31. Configurar os módulos de kernel necessários para o K8S/Containerd.
+cat << EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+nf_nat
+xt_REDIRECT
+xt_owner
+iptable_nat
+iptable_mangle
+iptable_filter
+EOF
 
-32. dd
+32. Criar o arquivo de configuracao do CRIO
+    vi /etc/crio/crio-config.toml
+
+    [crio]
+runtime = "runc"
+storage_driver = "overlay"
+log_level = "info"
+
+[crio.network]
+plugin_dirs = ["/opt/cni/bin"]
+network_dir = "/etc/cni/net.d"
+
+[crio.metrics]
+enable_metrics = true
+metrics_port = 9090
+
+
+34. 
+35. SS
+
+36. S
 
 
     
