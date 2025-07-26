@@ -206,9 +206,11 @@ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt \
   --discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 48. configurar o node role
-    kubectl label node worker-node-01 node-role.kubernetes.io/worker= --overwrite
+    kubectl label node <hostname node> node-role.kubernetes.io/worker= --overwrite
 
-50. 
+50. Verificar qual Container Run-time esta usando
+    kubectl get nodes -o wide
+51. 
 
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
