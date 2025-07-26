@@ -175,11 +175,40 @@ pause_image = "registry.k8s.io/pause:3.10"
     x.x.x.x master01 master01.kube.local
     x.x.x.x worker01 worker01.kube.local
     x.x.x.x worker02 worker02.kube.local
-43. 
+43. Inicializacao do Master01
+sudo kubeadm init \
+  --node-name $(hostname -s) \
+  --pod-network-cidr=10.244.0.0/16 \
+  --service-cidr=10.245.0.0/16 \
+  --apiserver-advertise-address=10.1.10.137
+
+44. Configuracao do kubeconfig para gerenciar o cluster
+    mkdir -p $HOME/.kube
+    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+    sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+46. Configuracao do flannel CDN do Cluster
+curl -O https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+kubectl apply -f kube-flannel.yml
 
     
 
-44. S
+47. adicionar os workers
+kubeadm token create
+
+openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt \
+  | openssl rsa -pubin -outform der 2>/dev/null \
+  | openssl dgst -sha256 -hex \
+  | sed 's/^.* //'
+
+  kubeadm join 10.1.10.137:6443 \
+  --token abcdef.0123456789abcdef \
+  --discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+48. configurar o node role
+    kubectl label node worker-node-01 node-role.kubernetes.io/worker= --overwrite
+
+50. 
 
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
