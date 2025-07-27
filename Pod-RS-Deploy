@@ -65,3 +65,5 @@ spec:
         ports:
         - containerPort: 80
 
+Modificar a versao do RS para 1.16
+Aplicar o RS
