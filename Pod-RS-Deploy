@@ -37,3 +37,10 @@ spec:
         - containerPort: 80
 
 
+Aplicar um POD
+Aplicar o RS
+Modificar a versao do RS para 1.16
+Aplicar o RS
+
+
+
