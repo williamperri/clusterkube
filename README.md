@@ -1,7 +1,7 @@
 # clusterkube
 Criacao de um Cluster Kubernets em VMWare Workstation
 
-$ 1.  Criar 1 VMs com 1 processador de 2 cores e 4 GB RAM
+1.  Criar 1 VMs com 1 processador de 2 cores e 4 GB RAM
 4.  Pare o Firewall do Sistema Operacional
     systemctl disable firewalld
     systemctl stop firewalld
