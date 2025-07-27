@@ -1,6 +1,39 @@
 # Criacao de um POD
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+  labels:
+    app: recargacel
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+
 
 # Criacao de um ReplicaSet
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend
+  labels:
+    app: recargacel
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: recargacel
+  template:
+    metadata:
+      labels:
+        app: recargacel
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
 
-# Criacao de um Deployment
 
