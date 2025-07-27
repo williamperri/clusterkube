@@ -1,7 +1,7 @@
 # clusterkube
 Criacao de um Cluster Kubernets em VMWare Workstation
 
-1.  Criar 1 VMs com 1 processador de 2 cores e 4 GB RAM
+# 1.  Criar 1 VMs com 1 processador de 2 cores e 4 GB RAM
 4.  Pare o Firewall do Sistema Operacional
     systemctl disable firewalld
     systemctl stop firewalld
@@ -101,9 +101,9 @@ dnf install -y \
     sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 29. Configurar o IPv4 Forward
     sysctl params required by setup, params persist across reboots
-cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
-net.ipv4.ip_forward = 1
-EOF
+    cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+    net.ipv4.ip_forward = 1
+    EOF
 
 sudo sysctl --system
 Verify that net.ipv4.ip_forward is set to 1 with:
