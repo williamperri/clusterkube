@@ -1,9 +1,7 @@
 # clusterkube
 Criacao de um Cluster Kubernets em VMWare Workstation
 
-1.  Criar 3 VMs com 1 processador de 2 cores e 4 GB RAM
-2.  Ter conectividade entre as 3 maquinas
-3.  Configurar Hostname, IP, para cada uma das maquinas
+1.  Criar 1 VMs com 1 processador de 2 cores e 4 GB RAM
 4.  Pare o Firewall do Sistema Operacional
     systemctl disable firewalld
     systemctl stop firewalld
@@ -17,14 +15,33 @@ dnf install -y \
     ethtool \
     iptables \
     socat
+8.  Instalar o epel-realease
+    sudo yum -y install epel-release
+
+19. Instalar o servidor de certificado
+    yum install ca-certificates
+20. Instalar o lsb-release
+    yum install lsb-realease
+21. Instalar o gnupg
+    yum install gnupg
+22. Instalar o nfs-utils
+    yum install nfs-utils
+23. Subir os servicoes do NFS
+    sudo systemctl enable --now rpcbind
+    sudo systemctl enable --now nfs-client.target
+
+27. Instalar o selinux
+    dnf install -y container-selinux
+
+16. Instalacao do Chrony para sincronismo de horario
+    yum install chrony
     
 7.  Atualizar o Sistema Operacional
     sudo yum -y update
-8.  Instalar o epel-realease
-    sudo yum -y install epel-release
+
+    
+
 9.  Adicione os repositórios do CRI-O
-
-
     cat <<EOF | tee /etc/yum.repos.d/cri-o.repo
     [cri-o]
     name=CRI-O
@@ -34,32 +51,22 @@ dnf install -y \
     gpgkey=https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/rpm/repodata/repomd.xml.key
     EOF
 
-
-    sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_9_Stream/devel:kubic:libcontainers:stable.repo
-    sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:1.28.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.28/CentOS_9_Stream/devel:kubic:libcontainers:stable:cri-o:1.28.repo
-10.  Instalar o cri-o
+10. Instalar o cri-o
     sudo yum install cri-o cri-tools
-11. Configuracao do Crio no startup da maquina
+    
+12. Configuracao do Crio no startup da maquina
     sudo systemctl enable --now crio
-12. Verificacao do CRIO se esta inicializado
+    
+14. Verificacao do CRIO se esta inicializado
     systemctl status crio
-13. Instalacao do Chrony para sincronismo de horario
-    yum install chrony
-14. Instalar o servidor de certificado
-    yum install ca-certificates
-15. Instalar o lsb-release
-    yum install lsb-realease
-16. Instalar o gnupg
-    yum install gnupg
-19. Instalar o nfs-utils
-    yum install nfs-utils
-20. Subir os servicoes do NFS
-    sudo systemctl enable --now rpcbind
-    sudo systemctl enable --now nfs-client.target
-21. Criar um diretorio para as chaves publicas e dar permissoes
-    sudo mkdir -p /etc/keyrings
-    sudo chmod 755 -R /etc/keyrings
-23. Criar um repositorio do kubernets
+    
+
+17. Configurar o Chrony
+    sed -i -e 's|^pool 2.centos.pool.ntp.org iburst$|pool a.ntp.br iburst|' -e '$a pool b.ntp.br iburst' -e '$a pool c.ntp.br iburst' /etc/chrony.conf
+
+
+
+25. Criar um repositorio do kubernets
 
     KUBERNETES_VERSION=v1.33
     CRIO_VERSION=v1.33
@@ -76,13 +83,14 @@ dnf install -y \
 
 
     
-25. Baixar as chaves publicas do kubernets
+26. Baixar as chaves publicas do kubernets
     curl -fsSL https://packages.cloud.google.com/yum/doc/yum-key.gpg | gpg --import
     curl -fsSL https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg | gpg --import
 
-26. Instalar o selinux
-    dnf install -y container-selinux
-
+33. Configuracao do NetFilter
+    modprobe br_netfilter
+34. Desativar o SELINUX
+    sudo sed -i 's|^SELINUX=enforcing$|SELINUX=disabled|' /etc/selinux/config
 
 26. Configurar o SELinux
     sudo setenforce 0
@@ -116,10 +124,6 @@ EOF
 32. Criar o arquivo de configuracao do CRIO
     vi /etc/crio/crio-config.toml
 
-33. Configuracao do NetFilter
-    modprobe br_netfilter
-
-    
 [crio]
 runtime = "runc"
 storage_driver = "overlay"
@@ -133,7 +137,7 @@ network_dir = "/etc/cni/net.d"
 enable_metrics = true
 metrics_port = 9090
 
-    vi /etc/crio/crio.conf
+vi /etc/crio/crio.conf
 
 [crio]
 root = "/var/lib/containers/storage"
@@ -159,18 +163,17 @@ seccomp_profile = "/etc/crio/seccomp.json"
 pause_image = "registry.k8s.io/pause:3.10"
 
 
-34. Desativar o SELINUX
-    sudo sed -i 's|^SELINUX=enforcing$|SELINUX=disabled|' /etc/selinux/config
-
 36. Instalar o Kubernets
     sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
     sudo kubeadm config images pull
     sudo systemctl enable --now kubelet
-37. Desligar e Clonar 3x
-38. Primeiro Clone, colocar como nome de IMAGEKUBE
-39. Segundo e Terceiro Clone, sendo WORKER1 e WORKER2
-40. Ligar os dois Workers e renomea-los (nmtui) e anotar os IPs
-41. Configurar o arquivo Hosts das 3 maquinas com os nomes e IPs e FQDN
+
+    
+38. Desligar e Clonar 3x
+39. Primeiro Clone, colocar como nome de IMAGEKUBE
+40. Segundo e Terceiro Clone, sendo WORKER1 e WORKER2
+41. Ligar os dois Workers e renomea-los (nmtui) e anotar os IPs
+42. Configurar o arquivo Hosts das 3 maquinas com os nomes e IPs e FQDN
     Ex.
     x.x.x.x master01 master01.kube.local
     x.x.x.x worker01 worker01.kube.local
@@ -216,14 +219,15 @@ sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
 kubeadm --cri-socket /var/run/crio/crio.sock
 
-39. 
- 
+=== Anotacoes ================================================================================================================================
 
+9.  Adicione os repositórios do CRI-O
+    sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_9_Stream/devel:kubic:libcontainers:stable.repo
+    sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:1.28.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.28/CentOS_9_Stream/devel:kubic:libcontainers:stable:cri-o:1.28.repo
 
-
-
-
-
+24. Criar um diretorio para as chaves publicas e dar permissoes
+    sudo mkdir -p /etc/keyrings
+    sudo chmod 755 -R /etc/keyrings
 
 
 12. https://github.com/jedchaves/youtube/wiki/cluster_k8s
