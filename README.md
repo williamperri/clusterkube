@@ -100,7 +100,7 @@ dnf install -y \
 28. Instalar os pacotes do Kubernets
     sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 29. Configurar o IPv4 Forward
-    # sysctl params required by setup, params persist across reboots
+    sysctl params required by setup, params persist across reboots
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.ipv4.ip_forward = 1
 EOF
