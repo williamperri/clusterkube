@@ -27,8 +27,8 @@ dnf install -y \
 22. Instalar o nfs-utils
     yum install nfs-utils
 23. Subir os servicoes do NFS
-    sudo systemctl enable --now rpcbind
-    sudo systemctl enable --now nfs-client.target
+/    sudo systemctl enable --now rpcbind
+/    sudo systemctl enable --now nfs-client.target
 
 27. Instalar o selinux
     dnf install -y container-selinux
